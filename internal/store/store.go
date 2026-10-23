@@ -103,6 +103,13 @@ CREATE TABLE IF NOT EXISTS provider_secrets (
 	nonce BLOB NOT NULL,
 	key_version INTEGER NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS projects (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name TEXT NOT NULL,
+	root_path TEXT NOT NULL UNIQUE,
+	created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
+);
 `
 
 	if _, err := DB.Exec(schema); err != nil {

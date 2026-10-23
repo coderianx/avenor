@@ -1,0 +1,9 @@
+# Frontend dependencies
+node_modules/
+
+# Go build output
+/avenor
+*.test
+
+# Editor & OS
+.DS_Store

@@ -1,17 +1,27 @@
 package main
 
 import (
+	"embed"
 	"flag"
+	"io/fs"
 	"log"
 	"net/http"
 	"path/filepath"
 
 	"github.com/coderianx/avenor/internal/config"
+	"github.com/coderianx/avenor/internal/handlers/projects"
 	"github.com/coderianx/avenor/internal/handlers/providers"
 	"github.com/coderianx/avenor/internal/store"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
+
+// frontendDist is the compiled frontend (frontend/dist) embedded into the
+// binary and served on "/". The dist folder is committed, so it is always
+// present at build time.
+//
+//go:embed all:frontend/dist
+var frontendDist embed.FS
 
 func main() {
 	port := flag.String("port", ":8080", "port for run server")
@@ -54,7 +64,19 @@ func main() {
 	router.Route("/api/v1", func(r chi.Router) {
 		r.Post("/providers", providers.AddNewProvider)
 		r.Get("/providers", providers.ListProviders)
+		r.Post("/project", projects.AddNewProject)
+		r.Get("/projects", projects.ListProjects)
+		r.Delete("/projects/{id}", projects.DeleteProject)
 	})
+
+	// serve the embedded frontend
+	distFS, err := fs.Sub(frontendDist, "frontend/dist")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	router.Handle("/*", http.FileServer(http.FS(distFS)))
 
 	// start server
 	log.Printf("Server starting on the %s", *port)

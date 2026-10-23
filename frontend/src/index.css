@@ -1,0 +1,95 @@
+:root {
+  --bg: #151515;
+  --text: #fafafa;
+  --button-bg: #fbfbfb;
+  --button-text: #151515;
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.welcome {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-title {
+  margin: 0 0 30px;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.welcome-logo {
+  width: 180px;
+  height: 180px;
+  user-select: none;
+  /* The logo ships as white artwork on solid black; screen blending drops the
+     black frame out so only the artwork shows on the dark background. */
+  mix-blend-mode: screen;
+}
+
+.welcome-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 56px;
+  padding: 13px 26px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--button-bg);
+  color: var(--button-text);
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.welcome-button:hover {
+  transform: translateY(-1px);
+}
+
+.welcome-button:active {
+  transform: translateY(0);
+}
+
+.welcome-button .arrow {
+  opacity: 0.55;
+}
+
+.welcome-button:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .welcome-title {
+    font-size: 24px;
+  }
+
+  .welcome-logo {
+    width: 140px;
+    height: 140px;
+  }
+}
